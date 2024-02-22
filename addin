@@ -1,0 +1,58 @@
+Sub InsertShapeWithText(rng As Range, leftPos As Double, topPos As Double, width As Double, height As Double)
+    Dim shp As Shape
+    Dim ws As Worksheet
+    Dim margin As Double
+    
+    Set ws = ActiveSheet
+    Set shp = ws.Shapes.AddShape(msoShapeRectangle, leftPos, topPos, width, height)
+    margin = 3.5
+    
+    shp.Fill.ForeColor.RGB = rng.Interior.Color
+    
+    With shp.Line
+        .Weight = 1 ' 線の太さ
+        .ForeColor.RGB = RGB(0, 0, 0) ' 黒色の枠線
+    End With
+    
+    With shp.TextFrame2
+        .TextRange.Font.NameComplexScript = rng.Font.Name
+        .TextRange.Font.NameFarEast = rng.Font.Name
+        .TextRange.Font.Name = rng.Font.Name
+        .TextRange.Font.Fill.ForeColor.RGB = rng.Font.Color
+        .TextRange.Font.Size = rng.Font.Size
+        .TextRange.Characters.Text = rng.Text
+        .MarginTop = margin / 2
+        .MarginBottom = margin / 2
+        .MarginLeft = margin
+        .MarginRight = margin
+    End With
+    
+End Sub
+
+Sub makeShape()
+    Dim rng As Range
+    Dim cell As Range
+    Dim margin As Double
+    Dim o As Double
+    Dim x As Double
+    Dim y As Double
+    
+    Set rng = Selection
+    Let margin = 5
+    o = 1
+    x = o
+    y = 1
+    
+    For Each RowRange In rng.Rows
+        For Each cell In RowRange.Cells
+            InsertShapeWithText cell, x, y, cell.width, cell.height
+            x = x + margin + cell.width
+        Next cell
+        
+        y = y + margin + RowRange.height
+        x = o
+
+    Next RowRange
+End Sub
+
+
