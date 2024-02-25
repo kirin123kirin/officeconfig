@@ -1,4 +1,4 @@
-Private Sub shp_custom(shp As Shape, Optional text As String = "", Optional fontname As String = "メイリオ", Optional fillcolor As Long = 16777215, Optional fontcolor As Long = 0, Optional fontsize As Single = 12)
+Private Sub SetStyleCustom(shp As Shape, Optional text As String = "", Optional fontname As String = "メイリオ", Optional fillcolor As Long = 16777215, Optional fontcolor As Long = 0, Optional fontsize As Single = 12)
     margin = 3.5
     
     shp.Fill.ForeColor.RGB = fillcolor
@@ -27,7 +27,7 @@ Private Sub shp_custom(shp As Shape, Optional text As String = "", Optional font
 
 End Sub
 
-Private Sub moveshp(shp As Variant, x As Integer, y As Integer, Optional ByVal width As Integer = 100, Optional ByVal height As Integer = 50)
+Private Sub ResetShapePosition(shp As Variant, x As Integer, y As Integer, Optional ByVal width As Integer = 100, Optional ByVal height As Integer = 50)
     Dim rate As Integer
     Dim ofx As Integer
     Dim ofy As Integer
@@ -42,16 +42,20 @@ Private Sub moveshp(shp As Variant, x As Integer, y As Integer, Optional ByVal w
     
 End Sub
 
-Private Function addshp(ws As Worksheet, txt As String, Optional x As Integer = 0, Optional y As Integer = 0, Optional ByVal width As Integer = 100, Optional ByVal height As Integer = 50) As Shape
+Private Function AddAndSetShape(ws As Worksheet, txt As String, Optional x As Integer = 0, Optional y As Integer = 0, Optional ByVal width As Integer = 100, Optional ByVal height As Integer = 50) As Shape
     Dim ret As Shape
+    
     Set ret = ws.Shapes.AddShape(msoShapeRectangle, 0, 0, width, height)
-    shp_custom ret, txt
-    moveshp ret, x, y, width, height
-    Set addshp = ret
+    
+    SetStyleCustom ret, txt
+    
+    ResetShapePosition ret, x, y, width, height
+    
+    Set AddAndSetShape = ret
 End Function
 
 
-Private Sub conshp(ws As Worksheet, left As Shape, right As Shape)
+Private Sub ConnectBetweenShape(ws As Worksheet, left As Shape, right As Shape)
     Dim con As Shape
     
     Set ws = ActiveSheet
@@ -67,28 +71,29 @@ Private Sub conshp(ws As Worksheet, left As Shape, right As Shape)
             .EndConnect right, 2 ' コネクタをオートシェイプ2に接続
         End With
     End With
+    
 End Sub
 
 
-
-
-
-Private Sub InsertShapeWithText(ShapesArray() As Variant, i As Integer, rng As Range, leftPos As Double, topPos As Double, width As Double, height As Double)
-    Dim shp As Shape
-    Dim ws As Worksheet
-    Dim margin As Double
+Private Sub GetCoordinate(Coordinate As Variant, x As Integer, y As Integer)
+    Dim n As Integer
+    Dim i As Integer
+    Dim r As Integer
     
-    Set ws = ActiveSheet
-    Set shp = ws.Shapes.AddShape(msoShapeRectangle, leftPos, topPos, width, height)
+    n = UBound(Coordinate, 1) + 1
+    r = Coordinate(x, y)
     
-    ShapesArray(i) = shp.name
+    For i = y To n - 1
+        Coordinate(x, i) = Coordinate(x, i) + 1
+    Next i
     
-    shp_custom shp, rng.text, rng.Font.name, rng.Interior.Color, rn.Font.Color, rng.Font.Size
+    y = r
     
-   
 End Sub
+
 
 Sub makeShape()
+    Dim ws As Worksheet
     Dim rng As Range
     Dim cell As Range
     Dim margin As Double
@@ -97,8 +102,15 @@ Sub makeShape()
     Dim y As Double
     Dim i As Integer
     Dim ShapesArray() As Variant
+    Dim shp As Shape
     
+    Set ws = ActiveSheet
     Set rng = Selection
+    If rng Is Nothing Then
+        MsgBox "図形オブジェクトを作成したい範囲を選択してください"
+        Exit Sub
+    End If
+    
     ReDim Preserve ShapesArray(0 To rng.Count + 1)
     
     Let margin = 5
@@ -109,9 +121,14 @@ Sub makeShape()
     
     For Each RowRange In rng.Rows
         For Each cell In RowRange.Cells
-            InsertShapeWithText ShapesArray, i, cell, x, y, cell.width, cell.height
+            
+            Set shp = ws.Shapes.AddShape(msoShapeRectangle, x, y, cell.width, cell.height)
+            ShapesArray(i) = shp.name
+            SetStyleCustom shp, cell.text, cell.Font.name, cell.Interior.Color, cell.Font.Color, cell.Font.Size
+
             x = x + margin + cell.width
             i = i + 1
+            
         Next cell
         
         y = y + margin + RowRange.height
@@ -120,6 +137,7 @@ Sub makeShape()
     Next RowRange
     
     ActiveSheet.Shapes.Range(ShapesArray).Select
+    MsgBox "図形作成済み、切り取ってパワポへ貼付ける等"
     
 End Sub
 
@@ -248,7 +266,7 @@ Sub makeNetworkDiagram()
             k = Row.Columns(i).Value
             If k <> "" Then
                 If Not dict.exists(k) Then
-                    dict.Add k, addshp(ws, (k))
+                    dict.Add k, AddAndSetShape(ws, (k))
                     dict_y.Add k, 0
                 End If
                 dict_y(k) = dict_y(k) + 1
@@ -257,7 +275,7 @@ Sub makeNetworkDiagram()
             v = Row.Columns(i + 1).Value
             If v <> "" Then
                 If Not dict.exists(v) Then
-                    dict.Add v, addshp(ws, (v))
+                    dict.Add v, AddAndSetShape(ws, (v))
                     dict_x.Add v, 0
                 End If
                 dict_x(v) = dict_x(v) + 1
@@ -267,7 +285,7 @@ Sub makeNetworkDiagram()
             End If
             
             If k <> "" And v <> "" Then
-                conshp ws, dict(k), dict(v)
+                ConnectBetweenShape ws, dict(k), dict(v)
             End If
         Next i
 
@@ -277,7 +295,8 @@ Sub makeNetworkDiagram()
     For Each k In dict.Keys
         x = dict_x(k)
         y = dict_y(k)
-        moveshp dict(k), CInt(x), CInt(y)
+        ResetShapePosition dict(k), CInt(x), CInt(y)
+        'TODO
         
     Next k
 End Sub
