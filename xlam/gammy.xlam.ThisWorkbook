@@ -1,0 +1,37 @@
+Sub Workbook_Open()
+    Call Add_MyBar("表から図", 1, "makeShape", 2961, "Excel表をオートシェイプに変換する")
+    Call Add_MyBar("値下埋め", 2, "fillDown", 360, "下方向に上のセルの値を埋める")
+    Call Add_MyBar("表の正規化", 3, "Normalize", 995, "下方向に上のセルの値を埋める")
+    Call Add_MyBar("関連図", 4, "makeNetworkDiagram", 1656, "下方向に上のセルの値を埋める")
+End Sub
+
+Sub Workbook_BeforeClose(Cancel As Boolean)
+    If Cancel <> True Then
+        For Each cmd In Application.CommandBars
+            If cmd.BuiltIn = False Then
+                cmd.Delete
+            End If
+        Next cmd
+    End If
+End Sub
+
+
+Sub Add_MyBar(name As String, buton_id As Integer, action_name As String, fid As Integer, tooltip As String)
+    Dim myBar As CommandBar
+    Dim myBtn As CommandBarControl
+    
+    Set myBar = Application.CommandBars.Add(action_name, buton_id)
+    
+    myBar.Visible = True
+    
+    Set myBtn = myBar.Controls.Add(msoControlButton)
+    
+    With myBtn
+        .Style = msoButtonIconAndCaption
+        .OnAction = action_name 'ボタンが押されたときに実行するプロシージャ
+        .FaceId = fid 'ボタンの絵の番号
+        .TooltipText = tooltip 'マウスポインタを合わせた時に表示するテキスト
+        .Caption = name
+    End With
+End Sub
+
