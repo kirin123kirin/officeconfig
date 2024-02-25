@@ -1,0 +1,284 @@
+Private Sub shp_custom(shp As Shape, Optional text As String = "", Optional fontname As String = "メイリオ", Optional fillcolor As Long = 16777215, Optional fontcolor As Long = 0, Optional fontsize As Single = 12)
+    margin = 3.5
+    
+    shp.Fill.ForeColor.RGB = fillcolor
+    
+    With shp.Line
+        .Weight = 1 ' 線の太さ
+        .ForeColor.RGB = RGB(0, 0, 0) ' 黒色の枠線
+    End With
+    
+    With shp.TextFrame2
+        .TextRange.Font.NameComplexScript = fontname
+        .TextRange.Font.NameFarEast = fontname
+        .TextRange.Font.name = fontname
+        .TextRange.Font.Fill.ForeColor.RGB = fontcolor
+        .TextRange.Font.Size = fontsize
+        .MarginTop = margin / 2
+        .MarginBottom = margin / 2
+        .MarginLeft = margin
+        .MarginRight = margin
+    End With
+    
+    shp.TextFrame.VerticalOverflow = xlOartVerticalOverflowOverflow
+    If text <> "" Then
+        shp.TextFrame2.TextRange.Characters.text = text
+    End If
+
+End Sub
+
+Private Sub moveshp(shp As Variant, x As Integer, y As Integer, Optional ByVal width As Integer = 100, Optional ByVal height As Integer = 50)
+    Dim rate As Integer
+    Dim ofx As Integer
+    Dim ofy As Integer
+    Dim init As Integer
+
+    ofx = 50
+    ofy = 50
+    init = 20
+    
+    shp.left = init + (x * (width + ofx))
+    shp.Top = init + (y * (height + ofy))
+    
+End Sub
+
+Private Function addshp(ws As Worksheet, txt As String, Optional x As Integer = 0, Optional y As Integer = 0, Optional ByVal width As Integer = 100, Optional ByVal height As Integer = 50) As Shape
+    Dim ret As Shape
+    Set ret = ws.Shapes.AddShape(msoShapeRectangle, 0, 0, width, height)
+    shp_custom ret, txt
+    moveshp ret, x, y, width, height
+    Set addshp = ret
+End Function
+
+
+Private Sub conshp(ws As Worksheet, left As Shape, right As Shape)
+    Dim con As Shape
+    
+    Set ws = ActiveSheet
+    
+    Set con = ws.Shapes.AddConnector(msoConnectorStraight, 0, 0, 0, 0) ' コネクタを追加
+      
+    With con
+        .Line.EndArrowheadStyle = msoArrowheadTriangle
+        .Line.Weight = 1
+        .Line.ForeColor.RGB = RGB(0, 0, 0) ' 黒色の枠線
+        With .ConnectorFormat
+            .BeginConnect left, 4 ' コネクタをオートシェイプ1に接続
+            .EndConnect right, 2 ' コネクタをオートシェイプ2に接続
+        End With
+    End With
+End Sub
+
+
+
+
+
+Private Sub InsertShapeWithText(ShapesArray() As Variant, i As Integer, rng As Range, leftPos As Double, topPos As Double, width As Double, height As Double)
+    Dim shp As Shape
+    Dim ws As Worksheet
+    Dim margin As Double
+    
+    Set ws = ActiveSheet
+    Set shp = ws.Shapes.AddShape(msoShapeRectangle, leftPos, topPos, width, height)
+    
+    ShapesArray(i) = shp.name
+    
+    shp_custom shp, rng.text, rng.Font.name, rng.Interior.Color, rn.Font.Color, rng.Font.Size
+    
+   
+End Sub
+
+Sub makeShape()
+    Dim rng As Range
+    Dim cell As Range
+    Dim margin As Double
+    Dim o As Double
+    Dim x As Double
+    Dim y As Double
+    Dim i As Integer
+    Dim ShapesArray() As Variant
+    
+    Set rng = Selection
+    ReDim Preserve ShapesArray(0 To rng.Count + 1)
+    
+    Let margin = 5
+    o = 1
+    x = o
+    y = 1
+    i = 0
+    
+    For Each RowRange In rng.Rows
+        For Each cell In RowRange.Cells
+            InsertShapeWithText ShapesArray, i, cell, x, y, cell.width, cell.height
+            x = x + margin + cell.width
+            i = i + 1
+        Next cell
+        
+        y = y + margin + RowRange.height
+        x = o
+
+    Next RowRange
+    
+    ActiveSheet.Shapes.Range(ShapesArray).Select
+    
+End Sub
+
+Sub fillDown()
+    Dim selectedRange As Range
+    Dim cell As Range
+
+    Set selectedRange = Selection
+    
+    For Each cell In selectedRange
+        If cell.Row > 1 And cell.Value = "" Then
+            If Not cell.Offset(-1, 0).Value = "" Then
+                cell.Value = cell.Offset(-1, 0).Value
+            End If
+        End If
+    Next cell
+End Sub
+
+
+Sub Normalize()
+    ' https://www.shegolab.jp/entry/excel-macro-flatten-matrix
+    Dim table As Range
+    Dim matrix As Range
+    Dim target As Range
+    
+    If Selection.Cells.Count > 1 Then
+        Set matrix = Selection.Cells
+        Set table = Range(matrix.CurrentRegion.Cells(1, 1), matrix.Cells(matrix.Rows.Count, matrix.Columns.Count))
+    Else
+        Set table = ActiveCell.CurrentRegion
+        Set matrix = Range(ActiveCell, table.Cells(table.Rows.Count, table.Columns.Count))
+        matrix.Select
+    End If
+    
+    If table.Row = matrix.Row Or table.Column = matrix.Column Then
+       Beep
+       Exit Sub
+    End If
+    
+    Application.ScreenUpdating = False
+    Application.EnableEvents = False
+    
+    Set target = ActiveWorkbook.Worksheets.Add.Range("A1")
+        Dim rowHSize As Integer
+    Dim colHSize As Integer
+    Dim lineSize As Integer
+    rowHSize = matrix.Column - table.Column
+    colHSize = matrix.Row - table.Row
+    lineSize = matrix.Columns.Count
+    
+    Dim srcRowHeader As Range
+    Dim srcColHeader As Range
+    With matrix
+        Set srcRowHeader = .Offset(0, -rowHSize).Resize(, rowHSize)
+        Set srcColHeader = .Offset(-colHSize, 0).Resize(colHSize)
+    End With
+    
+    Dim dstKey1 As Range
+    Dim dstKey2 As Range
+    Dim dstVals As Range
+    With target.Cells(1, 1)
+        Set dstKey1 = .Offset(0, 0).Resize(lineSize, rowHSize)
+        Set dstKey2 = .Offset(0, rowHSize).Resize(lineSize, colHSize)
+        Set dstVals = .Offset(0, rowHSize + colHSize).Resize(lineSize, 1)
+    End With
+    
+    Dim srcKey2Arr As Variant
+    srcKey2Arr = WorksheetFunction.Transpose(srcColHeader.Value)
+    
+    Dim srcLine As Range
+    For Each srcLine In matrix.Rows
+        dstKey1.Value = srcRowHeader.Rows(1).Value
+        dstKey2.Value = srcKey2Arr
+        dstVals.Value = WorksheetFunction.Transpose(srcLine.Value)
+        
+        Set dstKey1 = dstKey1.Offset(lineSize, 0)
+        Set dstKey2 = dstKey2.Offset(lineSize, 0)
+        Set dstVals = dstVals.Offset(lineSize, 0)
+        Set srcRowHeader = srcRowHeader.Offset(1, 0)
+    Next
+    
+       
+    Dim rng As Range
+    Dim blanks As Range
+    Set rng = target.Range(target.Cells(1, 1), dstKey2.Rows(1).Offset(-1, 0))
+    
+    If rng.Cells.Count > 1 Then
+        On Error Resume Next
+        For Each blanks In rng.SpecialCells(xlCellTypeBlanks).Areas
+            If blanks.Row > 1 Then
+                blanks.Value = blanks.Rows(1).Offset(-1, 0).Value
+            End If
+        Next
+        On Error GoTo 0
+    End If
+
+    
+    Application.EnableEvents = True
+    Application.ScreenUpdating = True
+End Sub
+
+
+Sub makeNetworkDiagram()
+    Dim ws As Worksheet
+    Dim rng As Range
+    Dim Row As Range
+    Dim dict As Object
+    Dim dic_x As Object
+    Dim dic_y As Object
+    Set dict = CreateObject("Scripting.Dictionary")
+    Set dict_y = CreateObject("Scripting.Dictionary")
+    Set dict_x = CreateObject("Scripting.Dictionary")
+    Dim i As Integer
+    Dim n_col As Integer
+    Dim k, v As String
+    Dim x, y, pos As Integer
+    
+    
+    Set ws = ActiveSheet
+    Set rng = Selection
+    n_col = rng.Columns.Count
+    pos = 0
+    
+    For Each Row In rng.Rows
+        For i = 1 To n_col - 1
+            k = Row.Columns(i).Value
+            If k <> "" Then
+                If Not dict.exists(k) Then
+                    dict.Add k, addshp(ws, (k))
+                    dict_y.Add k, 0
+                End If
+                dict_y(k) = dict_y(k) + 1
+            End If
+            
+            v = Row.Columns(i + 1).Value
+            If v <> "" Then
+                If Not dict.exists(v) Then
+                    dict.Add v, addshp(ws, (v))
+                    dict_x.Add v, 0
+                End If
+                dict_x(v) = dict_x(v) + 1
+                If pos < dict_x(v) Then
+                    pos = dict_x(v)
+                End If
+            End If
+            
+            If k <> "" And v <> "" Then
+                conshp ws, dict(k), dict(v)
+            End If
+        Next i
+
+    Next Row
+    
+    
+    For Each k In dict.Keys
+        x = dict_x(k)
+        y = dict_y(k)
+        moveshp dict(k), CInt(x), CInt(y)
+        
+    Next k
+End Sub
+
