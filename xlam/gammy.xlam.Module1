@@ -104,8 +104,16 @@ Sub makeShape()
     Dim ShapesArray() As Variant
     Dim shp As Shape
     
+    On Error Resume Next
     Set ws = ActiveSheet
     Set rng = Selection
+    On Error GoTo 0
+    
+    If rng Is Nothing Then
+        MsgBox "セルを選択してください"
+        Exit Sub
+    End If
+    
     If rng Is Nothing Then
         MsgBox "図形オブジェクトを作成したい範囲を選択してください"
         Exit Sub
@@ -141,12 +149,19 @@ Sub makeShape()
 End Sub
 
 Sub fillDown()
-    Dim selectedRange As Range
+    Dim rng As Range
     Dim cell As Range
 
-    Set selectedRange = Selection
+    On Error Resume Next
+    Set rng = Selection
+    On Error GoTo 0
     
-    For Each cell In selectedRange
+    If rng Is Nothing Then
+        MsgBox "セルを選択してください"
+        Exit Sub
+    End If
+
+    For Each cell In rng
         If cell.Row > 1 And cell.Value = "" Then
             If Not cell.Offset(-1, 0).Value = "" Then
                 cell.Value = cell.Offset(-1, 0).Value
@@ -255,9 +270,16 @@ Sub makeNetworkDiagram()
     Dim x, y, pos As Integer
     Dim n_dic As Long
     
-    
+    On Error Resume Next
     Set ws = ActiveSheet
     Set rng = Selection
+    On Error GoTo 0
+    
+    If rng Is Nothing Then
+        MsgBox "セルを選択してください"
+        Exit Sub
+    End If
+    
     n_col = rng.Columns.Count
     pos = 0
     
@@ -316,3 +338,4 @@ Sub makeNetworkDiagram()
         
     Next k
 End Sub
+
