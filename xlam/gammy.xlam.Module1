@@ -75,7 +75,7 @@ Private Sub ConnectBetweenShape(ws As Worksheet, left As Shape, right As Shape)
 End Sub
 
 
-Private Sub GetCoordinate(Coordinate As Variant, x As Integer, y As Integer)
+Private Sub GetCoordinate(Coordinate As Variant, x As Variant, y As Variant)
     Dim n As Integer
     Dim i As Integer
     Dim r As Integer
@@ -114,9 +114,9 @@ Sub makeShape()
     ReDim Preserve ShapesArray(0 To rng.Count + 1)
     
     Let margin = 5
-    o = 1
+    o = 20
     x = o
-    y = 1
+    y = 10
     i = 0
     
     For Each RowRange In rng.Rows
@@ -137,7 +137,6 @@ Sub makeShape()
     Next RowRange
     
     ActiveSheet.Shapes.Range(ShapesArray).Select
-    MsgBox "図形作成済み、切り取ってパワポへ貼付ける等"
     
 End Sub
 
@@ -250,7 +249,7 @@ Sub makeNetworkDiagram()
     Set dict = CreateObject("Scripting.Dictionary")
     Set dict_y = CreateObject("Scripting.Dictionary")
     Set dict_x = CreateObject("Scripting.Dictionary")
-    Dim i , j, m As Integer
+    Dim i, j, m As Integer
     Dim n_col As Integer
     Dim k, v As String
     Dim x, y, pos As Integer
@@ -292,13 +291,14 @@ Sub makeNetworkDiagram()
 
     Next Row
     
-    n_dic = UBound(dict, 1)  - 1
+    n_dic = dict.Count - 1
     
-    Dim Coordinate(0 To n_dic, 0 To n_dic) As Integer
+    Dim Coordinate() As Integer
+    ReDim Coordinate(0 To n_dic, 0 To n_dic)
     
     j = 0
     For Each k In dict.Keys
-        For Each m In 0 To n_dic
+        For m = 0 To n_dic
             Coordinate(j, m) = m
         Next m
         
@@ -310,7 +310,8 @@ Sub makeNetworkDiagram()
         x = dict_x(k)
         y = dict_y(k)
         
-        GetCoordinate(Coordinate, x, y)
+        GetCoordinate Coordinate, x, y
+        
         ResetShapePosition dict(k), CInt(x), CInt(y)
         
     Next k
