@@ -250,10 +250,11 @@ Sub makeNetworkDiagram()
     Set dict = CreateObject("Scripting.Dictionary")
     Set dict_y = CreateObject("Scripting.Dictionary")
     Set dict_x = CreateObject("Scripting.Dictionary")
-    Dim i As Integer
+    Dim i , j, m As Integer
     Dim n_col As Integer
     Dim k, v As String
     Dim x, y, pos As Integer
+    Dim n_dic As Long
     
     
     Set ws = ActiveSheet
@@ -291,13 +292,26 @@ Sub makeNetworkDiagram()
 
     Next Row
     
+    n_dic = UBound(dict, 1)  - 1
+    
+    Dim Coordinate(0 To n_dic, 0 To n_dic) As Integer
+    
+    j = 0
+    For Each k In dict.Keys
+        For Each m In 0 To n_dic
+            Coordinate(j, m) = m
+        Next m
+        
+        j = j + 1
+    Next k
     
     For Each k In dict.Keys
+        
         x = dict_x(k)
         y = dict_y(k)
+        
+        GetCoordinate(Coordinate, x, y)
         ResetShapePosition dict(k), CInt(x), CInt(y)
-        'TODO
         
     Next k
 End Sub
-
