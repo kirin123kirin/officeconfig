@@ -1,8 +1,8 @@
 Sub Workbook_Open()
-    Call Add_MyBar("表から図", 1, "makeShape", 2961, "Excel表をオートシェイプに変換する")
-    Call Add_MyBar("値下埋め", 2, "fillDown", 360, "下方向に上のセルの値を埋める")
-    Call Add_MyBar("表の正規化", 3, "Normalize", 995, "下方向に上のセルの値を埋める")
-    Call Add_MyBar("関連図", 4, "makeNetworkDiagram", 1656, "下方向に上のセルの値を埋める")
+    Call Add_MyBar("表から図", 1, "makeShape", 2961, "セル選択範囲を図形表に変換(結果はA1付近)")
+    Call Add_MyBar("値下埋め", 2, "fillDown", 360, "1つ上のセル値を下方向に値埋め(結果はA1付近)")
+    Call Add_MyBar("表の正規化", 3, "Normalize", 995, "マトリクス表を繰返し表に変換(結果は新規別シート)")
+    Call Add_MyBar("FromToを可視化", 4, "makeNetworkDiagram", 1656, "FromToで表現できる表からビジュアル化(結果はA1付近)")
 End Sub
 
 Sub Workbook_BeforeClose(Cancel As Boolean)
