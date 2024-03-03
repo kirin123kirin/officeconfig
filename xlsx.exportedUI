@@ -9,68 +9,64 @@
 <mso:control idQ="mso:FilePrintQuick" visible="false" insertBeforeQ="mso:FileSave"/>
 <mso:control idQ="mso:PrintPreviewAndPrint" visible="false" insertBeforeQ="mso:FileSave"/>
 <mso:control idQ="mso:Spelling" visible="false" insertBeforeQ="mso:FileSave"/>
-<mso:control idQ="mso:PointerModeOptions" visible="false" insertBeforeQ="mso:FileSave"/>
 <mso:control idQ="mso:FileSave" visible="false"/>
 <mso:control idQ="mso:Undo" visible="false"/>
 <mso:control idQ="mso:Redo" visible="true"/>
-<mso:control idQ="mso:SortAscendingExcel" visible="false"/>
-<mso:control idQ="mso:SortDescendingExcel" visible="false"/>
-<mso:control idQ="mso:PasteTextOnly" visible="true"/>
-<mso:control idQ="mso:PasteSourceFormatting" visible="true"/>
-<mso:separator idQ="msox:sep2" visible="true"/>
-<mso:control idQ="mso:ObjectRotateRight90" visible="true"/>
-<mso:control idQ="mso:ObjectFlipVertical" visible="true"/>
-<mso:control idQ="mso:ObjectFlipHorizontal" visible="true"/>
-<mso:control idQ="mso:ObjectEditPoints" visible="true"/>
-<mso:control idQ="mso:PictureBackgroundRemoval" visible="true"/>
-<mso:control idQ="mso:PicturesCompress" visible="true"/>
-<mso:control idQ="mso:PictureCropTools" visible="true"/>
-<mso:separator idQ="msox:sep3" visible="true"/>
-<mso:control idQ="mso:TextBoxInsertHorizontal" visible="true"/>
-<mso:control idQ="mso:ShapeRectangle" visible="true"/>
-<mso:control idQ="mso:ShapeRoundedRectangle" visible="true"/>
-<mso:control idQ="mso:ShapeRoundedRectangularCallout" visible="true"/>
-<mso:control idQ="mso:ShapeOval" visible="true"/>
-<mso:control idQ="mso:ShapeStraightConnectorArrow" visible="true"/>
-<mso:control idQ="mso:ShapeRightArrow" visible="true"/>
-<mso:control idQ="mso:ShapeDownArrow" visible="true"/>
-<mso:separator idQ="msox:sep5" visible="true"/>
-<mso:control idQ="mso:CellFillColorPicker" visible="true"/>
-<mso:control idQ="mso:ShapeFillColorPicker" visible="true"/>
-<mso:control idQ="mso:ShapeOutlineColorPicker" visible="true"/>
-<mso:control idQ="mso:FontColorPicker" visible="true"/>
-<mso:control idQ="mso:PictureEffectsMenu" visible="true"/>
-<mso:control idQ="mso:ConditionalFormattingMenu" visible="true"/>
-<mso:separator idQ="msox:sep6" visible="true"/>
-<mso:control idQ="mso:FontSizeIncrease" visible="true"/>
-<mso:control idQ="mso:FontSizeDecrease" visible="true"/>
-<mso:control idQ="mso:AlignLeft" visible="true"/>
-<mso:control idQ="mso:AlignCenter" visible="true"/>
-<mso:control idQ="mso:AlignRight" visible="true"/>
-<mso:control idQ="mso:WrapText" visible="true"/>
-<mso:control idQ="mso:Font" visible="true"/>
-<mso:control idQ="mso:FontSize" visible="true"/>
-<mso:separator idQ="msox:sep7" visible="true"/>
-<mso:control idQ="mso:MergeCells" visible="true"/>
-<mso:control idQ="mso:UnmergeCells" visible="true"/>
-<mso:control idQ="mso:BordersAll" visible="true"/>
-<mso:control idQ="mso:BorderNone" visible="true"/>
-<mso:control idQ="mso:BorderOutside" visible="true"/>
-<mso:separator idQ="msox:sep1" visible="true"/>
-<mso:control idQ="mso:CommaStyle" visible="true"/>
-<mso:control idQ="mso:DecimalsIncrease" visible="true"/>
-<mso:control idQ="mso:DecimalsDecrease" visible="true"/>
-<mso:separator idQ="msox:sep8" visible="true"/>
-<mso:control idQ="mso:CreatePivotTableFromTableRange" visible="true"/>
-<mso:control idQ="mso:SmartArtInsert" visible="true"/>
-<mso:control idQ="mso:ChartInsert" visible="true"/>
-<mso:separator idQ="msox:sep9" visible="true"/>
-<mso:control idQ="mso:Filter" visible="true"/>
-<mso:control idQ="mso:SortDialog" visible="true"/>
+<mso:control idQ="mso:PasteTextOnly" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:PasteSourceFormatting" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:separator idQ="msox:sep3" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:TextBoxInsertHorizontal" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:ShapesInsertGallery" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:ShapeStraightConnectorArrow" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:PictureEffectsMenu" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:ShapeFillColorPicker" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:separator idQ="msox:sep5" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:FontColorPicker" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:CellFillColorPicker" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:ShapeOutlineColorPicker" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:ConditionalFormattingMenu" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:separator idQ="msox:sep6" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:FontSizeIncrease" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:FontSizeDecrease" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:AlignLeft" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:AlignCenter" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:AlignRight" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:WrapText" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:PointerModeOptions" visible="false" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:AlignTopExcel" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:AlignMiddleExcel" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:AlignBottomExcel" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:Font" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:FontSize" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:separator idQ="msox:sep7" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:MergeCells" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:UnmergeCells" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:BordersAll" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:BorderNone" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:BorderOutside" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:separator idQ="msox:sep1" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:CommaStyle" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:PercentStyle" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:DecimalsIncrease" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:DecimalsDecrease" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:separator idQ="msox:sep8" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:CreatePivotTableFromTableRange" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:SmartArtInsert" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:ChartInsert" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:ChartInsertGalleryNew" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:separator idQ="msox:sep9" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:Filter" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:SortDialog" visible="true" insertBeforeQ="mso:SortAscendingExcel"/>
+<mso:control idQ="mso:SortAscendingExcel" visible="true"/>
+<mso:control idQ="mso:SortDescendingExcel" visible="true"/>
 <mso:control idQ="mso:RemoveDuplicates" visible="true"/>
+<mso:separator idQ="msox:sep2" visible="true"/>
 <mso:control idQ="mso:ViewFreezePanesGallery" visible="true"/>
 <mso:control idQ="mso:MacroPlay" visible="true"/>
 <mso:control idQ="mso:MacroRecord" visible="true"/>
+<mso:control idQ="mso:SelectionPane" visible="true"/>
+<mso:control idQ="mso:ViewSheetGridlines" visible="true"/>
+<mso:control idQ="mso:GroupAddInsCustomToolbars" visible="true"/>
 <mso:control idQ="mso:QuickAccessToolbarCustomization" visible="true"/>
 </mso:sharedControls>
 </mso:qat>
