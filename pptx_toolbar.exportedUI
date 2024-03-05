@@ -14,8 +14,10 @@
 <mso:control idQ="mso:FileSave" visible="false"/>
 <mso:control idQ="mso:Undo" visible="false"/>
 <mso:control idQ="mso:RedoOrRepeat" visible="false"/>
+<mso:control idQ="mso:GuidesShowHide" visible="true"/>
 <mso:control idQ="mso:DuplicateSelectedSlides" visible="true"/>
 <mso:control idQ="mso:PictureChangeMenu" visible="true"/>
+<mso:control idQ="mso:GalleryAllShapesAndTextboxes" visible="true"/>
 <mso:separator idQ="msox:sep1" visible="true"/>
 <mso:control idQ="mso:TextBoxInsertHorizontal" visible="true"/>
 <mso:control idQ="mso:ShapeRectangle" visible="true"/>
@@ -25,11 +27,9 @@
 <mso:control idQ="mso:ShapeStraightConnectorArrow" visible="true"/>
 <mso:control idQ="mso:ShapeRightArrow" visible="true"/>
 <mso:control idQ="mso:ShapeDownArrow" visible="true"/>
-<mso:control idQ="mso:GalleryAllShapesAndTextboxes" visible="true"/>
 <mso:control idQ="mso:PictureEffectsMenu" visible="true"/>
 <mso:control idQ="mso:ShapeFillColorPicker" visible="true"/>
 <mso:control idQ="mso:ShapeOutlineColorPicker" visible="true"/>
-<mso:separator idQ="msox:sep3" visible="true"/>
 <mso:control idQ="mso:Font" visible="true"/>
 <mso:control idQ="mso:FontSize" visible="true"/>
 <mso:control idQ="mso:FontColorPicker" visible="true"/>
