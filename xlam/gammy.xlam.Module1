@@ -129,14 +129,20 @@ Sub makeShape()
     
     For Each RowRange In rng.Rows
         For Each cell In RowRange.Cells
+        
+            x = x + margin + cell.width
+            If cell.MergeCells Then
+                If Not cell = cell.MergeArea.Cells(1, 1) Then
+                    GoTo NextIteration
+                End If
+            End If
             
-            Set shp = ws.Shapes.AddShape(msoShapeRectangle, x, y, cell.width, cell.height)
+            Set shp = ws.Shapes.AddShape(msoShapeRectangle, margin + cell.width, y, cell.width, cell.height)
             ShapesArray(i) = shp.name
             SetStyleCustom shp, cell.text, cell.Font.name, cell.Interior.Color, cell.Font.Color, cell.Font.Size
-
-            x = x + margin + cell.width
             i = i + 1
-            
+
+NextIteration:
         Next cell
         
         y = y + margin + RowRange.height
@@ -291,7 +297,7 @@ Sub makeNetworkDiagram()
                     dict.Add k, AddAndSetShape(ws, (k))
                     dict_y.Add k, 0
                 End If
-                
+                dict_y(k) = dict_y(k) + 1
             End If
             
             v = Row.Columns(i + 1).Value
